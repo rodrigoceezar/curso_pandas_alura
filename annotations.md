@@ -113,7 +113,7 @@ Ex:
 
 Utilizando quando precisamos contar quantas vezes cada variavel de uma coluna aparece na nossa base de dados.
 
-Ex: df['Bairro'].value_counts()
+Ex: df.Tipo.value_counts()
 
     out: Tipo
         Apartamento           19532
@@ -125,6 +125,20 @@ Ex: df['Bairro'].value_counts()
         Box/Garagem              82
         Loft                     51
 
+- É possivel gerar também os valores em percentual no metodo value_counts(), basta definir o parametros normalize=True
+    df.Tipo.value_counts(normalize=True)
 
+- Para melhor a visualização, podemos transformar em tabela, organizar do menor para o maior e resetar o index
+    df.Tipo.value_counts(normalize=True).to_frame().sort_values('proportion').reset_index()
+
+**Outros parametros para a função**
+- salvando o dataframe em uma variável
+df_exemplo = df['Tipo'].value_counts(normalize=True).to_frame().sort_values('Tipo')
+
+- alterando o nome da coluna "Tipo" para "Percentuais"
+df_exemplo.rename(columns={'Tipo': 'Percentuais'}, inplace=True)
+
+- visualizando o dataframe
+df_exemplo 
 
 
