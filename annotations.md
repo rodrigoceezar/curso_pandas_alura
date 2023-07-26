@@ -192,6 +192,23 @@ Em vez de remover os dados nulos, outra abordagem é preenchê-los com valores a
 
     # Preencher valores nulos com um valor personalizado
 
-    df_preenchido = df.fillna({'coluna1': valor1, 'coluna2': valor2})
+    df_preenchido = df.fillna({'coluna1': valor1, 'coluna2': valor2})]
+
+
+### Salvando em diferentes formatos
+
+- to_csv(): salva o DataFrame em um arquivo CSV (Comma-Separated Values);
+
+- to_excel(): salva o DataFrame em um arquivo Excel;
+
+- to_json(): salva o DataFrame em um arquivo JSON (JavaScript Object Notation).
+
+### Metodo Apply, função lambda
+
+Exemplo: df.Carros.apply(lambda x:'Luxo' if x > 200.000 else 'Comum')
+
+.Apply: O método apply é usado para aplicar uma função especificada a cada elemento da coluna.
+
+A função lambda é uma função anônima que pode ser definida em uma única linha. O x é o parâmetro da função lambda, que representa cada elemento da coluna do dataframe que está sendo processado. Logo após, é aplicado a condição que será realizada tal ação.
 
 
