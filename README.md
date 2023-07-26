@@ -51,4 +51,5 @@ Bons estudos e feliz codificação!
 
 Rodrigo Cezar  
 rodrigoceezar0@gmail.com
+
 linkedin: www.linkedin.com/in/rodrigoceezar
