@@ -57,22 +57,35 @@ Ele permite que você agrupe um DataFrame por uma ou mais colunas, criando grupo
 Na minha opnião, o melhor metodo de agrupar pelo GroupBy, é:
 
 1. Defina as colunas que quer utilizar em uma lista
+
             col = ['Tipo','Valor']
+
 2. Aplique o metodo .loc[] para filtrar a base de dados
+
             df.loc[:,col]
+
             ## O metodo acima faz uma filtragem pegando todas as linhas (:) apenas das colunas que foram definidas na variaveis col
+
 3. Aplique o metodo groupby
+
             df.loc[:,col].groupby(['Tipo']).mean()
+
             ## Quando for agrupar 'POR' alguma variavel, defina entre chaves dentro do metodo groupby, após isso defina como quer calcular o restante das colunas (mean(), sum(), count(), min(), max())
+
 4. Organize do menor para o maior, resete o index para ficar no formato de tabela mais organizada
+
             df.loc[:,col].groupby(['Tipo']).mean().sort_values('Valor').reset_index()
 
 Para melhor visualização, é interessante plotar em um gráfico:
 
 1. Defina a uma variavel todo o código do groupby
+
             df_preco_tipo  = df.loc[:,col].groupby(['Tipo']).mean().sort_values('Valor').reset_index()
+
 2. Plote o gráfico da seguinte maneira:
+
             df_preco_tipo.plot(x='Tipo',kind='barh', figsize=(14,10), color='red');
+
             ## Onde x='Coluna do agrupamento', kind='Tipo do gráfico, figsize=(tamanhoX,tamanhoY), color='cor em ingles'
 
 ### Metodo Query
@@ -84,25 +97,31 @@ Ex:
     df.query('Idade == 25')
 
     # Filtrando com base em operadores lógicos:
+
     df.query('Idade > 25 and Salario < 6000')
 
     #Filtrando usando variáveis como valores de consulta:
+
     idade_alvo = 30
     df.query(f'Idade == {idade_alvo}')
 
     #Usando o método inplace para alterar o DataFrame original:
+
     df.query('Salario > 4000', inplace=True)
     print(df)
 
     #Usando colunas com espaços ou caracteres especiais:
+
     data = {'Nome Completo': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
         'Idade Atual': [25, 30, 22, 27, 35],
         'Salário Atual': [4000, 4500, 3800, 5200, 6000]}
     df = pd.DataFrame(data)
     # Filtrando apenas as pessoas com idade maior que 25
+
     resultado_query = df.query('`Idade Atual` > 25')
 
     #Usando listas
+
     imoveis_comerciais = ['Conjunto Comercial/Sala','Prédio Inteiro','Loja/Salão', 'Galpão/Depósito/Armazém','Casa Comercial',
                       'Terreno Padrão', 'Loja Shopping/ Ct Comercial','Chácara','Loteamento/Condomínio', 'Sítio', 'Pousada/Chalé', 
                       'Studio', 'Hotel', 'Indústria' ]
@@ -126,19 +145,53 @@ Ex: df.Tipo.value_counts()
         Loft                     51
 
 - É possivel gerar também os valores em percentual no metodo value_counts(), basta definir o parametros normalize=True
+    
     df.Tipo.value_counts(normalize=True)
 
 - Para melhor a visualização, podemos transformar em tabela, organizar do menor para o maior e resetar o index
+    
     df.Tipo.value_counts(normalize=True).to_frame().sort_values('proportion').reset_index()
 
 **Outros parametros para a função**
 - salvando o dataframe em uma variável
+
 df_exemplo = df['Tipo'].value_counts(normalize=True).to_frame().sort_values('Tipo')
 
 - alterando o nome da coluna "Tipo" para "Percentuais"
+
 df_exemplo.rename(columns={'Tipo': 'Percentuais'}, inplace=True)
 
 - visualizando o dataframe
+
 df_exemplo 
+
+
+### Como lidar com dados nulos
+
+Primeiramente, deve identifica-los em sua base de dados, utilizando:
+
+Antes de tratá-los, você precisa identificar quais colunas contêm dados nulos em seu conjunto de dados. Para isso, você pode usar o método .isnull() das bibliotecas pandas ou numpy para encontrar os valores nulos. Para melhor visualização, basta você adicionar o metodo .sum(). Exemplo:
+
+    df.isnull().sum()
+
+Metodo 1: Remover todos os valores nulos (Não muito usual)
+Se os dados nulos representarem apenas uma pequena parte do seu conjunto de dados e não forem cruciais para a análise, você pode optar por remover as linhas ou colunas que contêm dados nulos usando o método .dropna() do pandas. Exemplo:
+
+    df.dropna()
+
+Metodo 2: Preencher os dados nulos
+Em vez de remover os dados nulos, outra abordagem é preenchê-los com valores adequados. Você pode usar o método .fillna() do pandas para substituir os valores nulos por um valor específico. Por exemplo:
+
+    # Preencher valores nulos com zero
+
+    df_preenchido = df.fillna(0)
+
+    # Preencher valores nulos com a média da coluna  
+
+    df_preenchido = df.fillna(df.median())
+
+    # Preencher valores nulos com um valor personalizado
+
+    df_preenchido = df.fillna({'coluna1': valor1, 'coluna2': valor2})
 
 
